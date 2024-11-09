@@ -1,5 +1,6 @@
 import { Red } from "./Red";
 import { Cliente } from "./Cliente";
+import { Proveedor } from "./Proveedor";
 
 export class Sucursal {
     private nombreSucursal:string;
