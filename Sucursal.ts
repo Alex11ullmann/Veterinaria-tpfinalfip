@@ -1,6 +1,6 @@
-import { Red } from "./red";
+import { Red } from "./Red";
 
-class Sucursal {
+export class Sucursal {
     private nombreSucursal:string;
     private direccion:string;
     private id:string;

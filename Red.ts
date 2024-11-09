@@ -1,3 +1,4 @@
+import { Sucursal } from "./Sucursal";
 
 export class Red {
 
