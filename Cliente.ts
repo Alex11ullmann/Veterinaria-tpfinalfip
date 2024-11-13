@@ -1,19 +1,19 @@
 import { Sucursal } from "./Sucursal";
 import { Red } from "./Red";
+import { Paciente } from "./Paciente";
 
-export class Cliente {
-    protected nombre : string;
-    protected telefono : number;
+export abstract class Cliente {
+    protected nombreCliente : string;
+    protected telefonoCliente : number;
     protected visitas : number = 0;
     protected vip : boolean = false;
-    protected id : string;
+    protected idCliente : string;
     protected paciente : Paciente[];
 
-    constructor (nombre : string, telefono : number, id : string, paciente : Paciente[]) {
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.id = id;
-        this.paciente = paciente;
+    constructor (nombreCliente : string, telefonoCliente : number, idCliente : string) {
+        this.nombreCliente = nombreCliente;
+        this.telefonoCliente = telefonoCliente;
+        this.idCliente = idCliente;
     }
 
     public agregarPaciente (paciente : Paciente) {
@@ -34,7 +34,7 @@ export class Cliente {
         }
     }
     
-    public setPaciente (paciente : Paciente) : void {
+    public setPaciente (paciente : Paciente []) : void {
         this.paciente = paciente;
     }
 
