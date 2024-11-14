@@ -24,7 +24,37 @@ export abstract class Cliente {
             this.paciente.push (paciente);
         }
     }
+    public modificarNombrePaciente (pacienteAModificar : Paciente, nombrePaciente:string, edad:number, genero:string, especie:string, nuevoNombre:string) : void{
+        const ipaciente = this.paciente.find((pacienteAModificar) =>
+            pacienteAModificar.nombrePaciente === nombrePaciente &&
+            pacienteAModificar.edad === edad &&
+            pacienteAModificar.genero === genero &&
+            pacienteAModificar.especie === especie
+        );
+        if (ipaciente) {
+            pacienteAModificar.setNombrePaciente (nuevoNombre);
+            console.log ("El nombre fue modificado");
+        } else {
+            console.log ("No se encontro ningun registro con esos datos");
+        }
+    }
 
+    public modificarNombrePaciente2 (pacienteAModificar : Paciente, nombrePaciente:string, edad:number, genero:string, especie:string, nuevoNombre:string, nuevaEdad:number, nuevoGenero:string, nuevaEspecie:string) : void{
+        const ipaciente = this.paciente.find((pacienteAModificar) =>
+            pacienteAModificar.nombrePaciente === nombrePaciente &&
+            pacienteAModificar.edad === edad &&
+            pacienteAModificar.genero === genero &&
+            pacienteAModificar.especie === especie
+        );
+        pacienteAModificar.setNombrePaciente (nuevoNombre);
+        if (ipaciente) {
+            this.modificarNombrePaciente2(pacienteAModificar,nombrePaciente, edad, genero, especie, nuevoNombre, nuevaEdad, nuevoGenero, nuevaEspecie);
+            console.log ("El nombre fue modificado");
+        } else {console.log ("No se encontro ningun registro con esos datos");}
+        pacienteAModificar.setEdad (nuevaEdad);
+        pacienteAModificar.setGenero (nuevoGenero);
+        pacienteAModificar.setEspecie (nuevaEspecie);
+    }
     public eliminarPaciente (pacienteAEliminar : Paciente) :void {
         if (pacienteAEliminar != undefined && this.paciente.includes(pacienteAEliminar)) {
             const iPaciente : number = this.paciente.indexOf (pacienteAEliminar);
@@ -33,11 +63,7 @@ export abstract class Cliente {
             console.log ("El paciente NO existe");
         }
     }
-    
-    public setPaciente (paciente : Paciente []) : void {
-        this.paciente = paciente;
-    }
-
+   
     public getPaciente () : Paciente [] {
         return this.paciente;
     }

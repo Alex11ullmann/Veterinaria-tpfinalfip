@@ -3,10 +3,10 @@ import { Red } from "./Red";
 import { Sucursal } from "./Sucursal";
 
 export class Paciente extends Cliente {
-    protected nombrePaciente: string;
-    protected edad: number;
-    protected genero: string;
-    protected especie: string;
+    public nombrePaciente: string;
+    public edad: number;
+    public genero: string;
+    public especie: string;
 
     constructor(nombrePaciente: string, edad: number, genero: string, especie: string, nombreCliente: string, telefonoCliente: number, idCliente: string) {
         super(nombreCliente, telefonoCliente, idCliente);

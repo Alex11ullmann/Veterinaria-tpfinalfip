@@ -3,11 +3,13 @@ import { Cliente } from "./Cliente";
 import { Proveedor } from "./Proveedor";
 
 export class Sucursal {
-    private nombreSucursal:string;
-    private direccion:string;
-    private id:string;
+    public nombreSucursal:string;
+    public direccion:string;
+    public id:string;
+    
     private cliente:Cliente[];
     private proveedor:Proveedor[];
+    
     constructor(nombreSucursal:string,  direccion:string, id:string, cliente:Cliente[], proveedor:Proveedor[]) {
         this.nombreSucursal=nombreSucursal;
         this.direccion=direccion;
@@ -16,25 +18,36 @@ export class Sucursal {
         this.proveedor=proveedor;
     }
 
-    //Getters
+    public getNombreSucursal(): string {
+        return this.nombreSucursal;
+    }
+    public setNombreSucursal(nombreSucursal: string): void {
+        this.nombreSucursal = nombreSucursal;
+    }
+    public getDireccion(): string {
+        return this.direccion;
+    }
+    public setDireccion(direccion: string): void {
+        this.direccion = direccion;
+    }
+    public getId(): string {
+        return this.id;
+    }
+    public setId(id: string): void {
+        this.id = id;
+    }
     public getCliente():Cliente[]{
         return this.cliente;
     }
-
     public getProveedor():Proveedor[]{
         return this.proveedor;
     }
-
-    //Setters
-
     public setCliente(cliente:Cliente[]):void{
         this.cliente=cliente;
     }
-
     public setProveedor(proveedor:Proveedor[]):void{
         this.proveedor=proveedor;
     }
-
     //Funciones
 
     public agregarCliente (cliente:Cliente[]){
