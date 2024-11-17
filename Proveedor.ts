@@ -1,14 +1,36 @@
-import { Red } from "./Red";
-import { Sucursal } from "./Sucursal";
+import { Generador } from "./generarid";
 
 export class Proveedor {
-    protected nombre : string;
+    public nombreProveedor : string;
+    public telefonoProveedor : number;
     protected id : string;
-    protected telefono : number;
 
-    constructor (nombre : string, id : string, telefono : number) {
-        this.nombre = nombre;
-        this.id = id;
-        this.telefono = telefono;
+    constructor (nombreProveedor : string, telefonoProveedor : number) {
+        this.nombreProveedor = nombreProveedor;
+        this.telefonoProveedor = telefonoProveedor;
+        this.id = this.generarId();
+    }
+    //getters y setters de la clase
+    public getNombreProveedor () : string {
+        return this.nombreProveedor;
+    }
+    public setNombreProveedor (nombreNuevo : string) {
+        this.nombreProveedor = nombreNuevo;
+    }
+    public getTelefonoProveedor () : number {
+        return this.telefonoProveedor;
+    }
+    public setTelefonoProveedor (telefonoNuevo : number) {
+        this.telefonoProveedor = telefonoNuevo;
+    }
+    //generador id
+    private generarId(): string {
+        let idGenerado : Generador = new Generador();
+        let id = "P/" + idGenerado.generadorId().toString();
+        return id;
+    }
+    //getter del generador de id
+    public getId(): string {
+        return this.id;
     }
 }
