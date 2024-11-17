@@ -1,0 +1,2 @@
+{"nombreSucursal":"asdasda","direccion":"asdasdas","cliente":[],"proveedor":[],"id":"S/78"}
+{"nombreSucursal":"asdasda","direccion":"asdasd","cliente":[],"proveedor":[],"id":"S/40"}

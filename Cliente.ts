@@ -1,70 +1,83 @@
-import { Sucursal } from "./Sucursal";
-import { Red } from "./Red";
 import { Paciente } from "./Paciente";
+import { Generador } from "./generarid";
+import { Plantilla } from "./plantilla";
 
-export abstract class Cliente {
-    protected nombreCliente : string;
+export class Cliente extends Plantilla {
+    public nombreCliente : string;
     protected telefonoCliente : number;
     protected visitas : number = 0;
     protected vip : boolean = false;
-    protected idCliente : string;
+    private id : string = this.getId();
+
     protected paciente : Paciente[];
 
-    constructor (nombreCliente : string, telefonoCliente : number, idCliente : string) {
+    constructor (nombreCliente : string, telefonoCliente : number) {
+        super ();
         this.nombreCliente = nombreCliente;
         this.telefonoCliente = telefonoCliente;
-        this.idCliente = idCliente;
+        this.paciente = [];
     }
-
-    public agregarPaciente (paciente : Paciente) {
-        const i = this.paciente.includes(paciente);
-        if (i) {
-            console.log ("Este paciente ya existe");
+    //getters y setters de la clase
+    public getNombreCliente () : string {
+        return this.nombreCliente;
+    }
+    public setNombreCliente (nombreNuevo : string) {
+        this.nombreCliente = nombreNuevo;
+    }
+    public getTelefonoCliente () : number {
+        return this.telefonoCliente;
+    }
+    public setTelefonoCliente (telefonoNuevo : number) {
+        this.telefonoCliente = telefonoNuevo;
+    }
+    public getVisitas () : number {
+        return this.visitas;
+    }
+    public getVip () : string {
+        if (this.vip) {
+            return "Si";
         } else {
-            this.paciente.push (paciente);
+            return "No";
         }
     }
-    public modificarNombrePaciente (pacienteAModificar : Paciente, nombrePaciente:string, edad:number, genero:string, especie:string, nuevoNombre:string) : void{
-        const ipaciente = this.paciente.find((pacienteAModificar) =>
-            pacienteAModificar.nombrePaciente === nombrePaciente &&
-            pacienteAModificar.edad === edad &&
-            pacienteAModificar.genero === genero &&
-            pacienteAModificar.especie === especie
-        );
-        if (ipaciente) {
-            pacienteAModificar.setNombrePaciente (nuevoNombre);
-            console.log ("El nombre fue modificado");
-        } else {
-            console.log ("No se encontro ningun registro con esos datos");
-        }
-    }
-
-    public modificarNombrePaciente2 (pacienteAModificar : Paciente, nombrePaciente:string, edad:number, genero:string, especie:string, nuevoNombre:string, nuevaEdad:number, nuevoGenero:string, nuevaEspecie:string) : void{
-        const ipaciente = this.paciente.find((pacienteAModificar) =>
-            pacienteAModificar.nombrePaciente === nombrePaciente &&
-            pacienteAModificar.edad === edad &&
-            pacienteAModificar.genero === genero &&
-            pacienteAModificar.especie === especie
-        );
-        pacienteAModificar.setNombrePaciente (nuevoNombre);
-        if (ipaciente) {
-            this.modificarNombrePaciente2(pacienteAModificar,nombrePaciente, edad, genero, especie, nuevoNombre, nuevaEdad, nuevoGenero, nuevaEspecie);
-            console.log ("El nombre fue modificado");
-        } else {console.log ("No se encontro ningun registro con esos datos");}
-        pacienteAModificar.setEdad (nuevaEdad);
-        pacienteAModificar.setGenero (nuevoGenero);
-        pacienteAModificar.setEspecie (nuevaEspecie);
-    }
-    public eliminarPaciente (pacienteAEliminar : Paciente) :void {
-        if (pacienteAEliminar != undefined && this.paciente.includes(pacienteAEliminar)) {
-            const iPaciente : number = this.paciente.indexOf (pacienteAEliminar);
-            this.paciente.slice (iPaciente, 1);
-        } else {
-            console.log ("El paciente NO existe");
-        }
-    }
-   
-    public getPaciente () : Paciente [] {
+    //getters del arrays
+    public getListaPaciente () : Paciente[]{
         return this.paciente;
     }
+    // agregar y eliminar
+    public agregarPaciente (paciente : Paciente) :string {
+        const i = this.paciente.includes(paciente);
+        if (i) {
+            return `El paciente ${paciente.nombrePaciente} ya existe`
+        } else {
+            this.paciente.push (paciente);
+            return `El paciente ${paciente.nombrePaciente} fue creado`;
+        }
+    }
+    public eliminarPaciente (pacienteAEliminar : Paciente) :string {
+        if (pacienteAEliminar != undefined && this.paciente.includes(pacienteAEliminar)) {
+            const iPaciente : number = this.paciente.indexOf (pacienteAEliminar);
+            this.paciente.splice (iPaciente, 1);
+            return `El paciente ${pacienteAEliminar.nombrePaciente} fue eliminado`;
+        } else {
+            return `El paciente ${pacienteAEliminar.nombrePaciente} NO existe`;
+        }
+    }
+    public sumarVisita () : number {
+        this.visitas = this.visitas + 1;
+        if (this.visitas > 4) {
+            this.vip = true;
+        }
+        return this.visitas; //verificar
+    }
 }
+
+let dogi : Paciente = new Paciente ("dogi", 5, "macho", "perro");
+let cat : Paciente = new Paciente ("gaturro", 3, "hembra", "gato");
+
+let cliente : Cliente = new Cliente ("jose", 1555465);
+cliente.agregarPaciente(dogi);
+cliente.agregarPaciente(cat);
+console.log (cliente);
+console.log (cliente.sumarVisita());
+console.log (cliente.sumarVisita());
