@@ -1,11 +1,11 @@
 import { Generador } from "./generarid";
 
-export abstract class Plantilla {
+export abstract class IdCliente {
     private static id : string;
 
     constructor () {
-        if (Plantilla.id === undefined) {
-            Plantilla.id = this.generarId();
+        if (IdCliente.id === undefined) {
+            IdCliente.id = this.generarId();
         }
     }
     
@@ -16,6 +16,6 @@ export abstract class Plantilla {
         return id;
     }
     protected getId(): string {
-        return Plantilla.id;
+        return IdCliente.id;
     }
 }

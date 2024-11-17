@@ -2,6 +2,7 @@ import { Cliente } from "./Cliente";
 import { Proveedor } from "./Proveedor";
 import { Generador } from "./generarid";
 
+
 export class Sucursal {
     public nombreSucursal : string;
     public direccion : string;

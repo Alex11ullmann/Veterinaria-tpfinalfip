@@ -1,7 +1,6 @@
-import { Cliente } from "./Cliente";
-import { Plantilla } from "./plantilla";
+import { IdCliente } from "./idCliente";
 
-export class Paciente extends Plantilla {
+export class Paciente extends IdCliente {
     public nombrePaciente: string;
     public edad: number;
     public genero: string;

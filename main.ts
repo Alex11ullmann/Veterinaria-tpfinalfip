@@ -1,6 +1,6 @@
 import { Cliente } from "./Cliente";
-import { guardarArchivos } from "./guardarArchivos";
 import { Paciente } from "./Paciente";
+import { guardarArchivos } from "./guardarArchivos";
 import { Proveedor } from "./Proveedor";
 import { Red } from "./Red";
 import { Sucursal } from "./Sucursal";
@@ -105,7 +105,7 @@ do{
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 4) {
                 let modificarNombreSuc = rls.question ("Ingrese el nombre de la sucursal a modificar: ");
-                }
+            }
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 0) {
                 console.clear();
@@ -137,7 +137,7 @@ do{
             } while (salidaProv == false);
             if (opcionNumericaProv == 1) {
                 //se crea el nombre del proveedor
-                console.log ("'\x1b[33m%s\x1b[0m', Eligio la opcion 1- Crear a un Proveedor Nuevo");
+                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 1- Crear a un Proveedor Nuevo");
                 let nombreProveedor : string = rls.question ("Ingrese el nombre del nuevo Proveedor (minimo 5 caracteres): ");
                 do {
                     if (nombreProveedor.length < 5) {
@@ -164,9 +164,9 @@ do{
             }
             if (opcionNumericaProv == 2) {
                 console.clear();
-                console.log ("'\x1b[33m%s\x1b[0m', Eligio la opcion 2- Ver una lista de Proveedores");
+                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 2- Ver una lista de Proveedores");
                 //se muestra la lista de proveedores existentes
-
+                
             }
             if (opcionNumericaProv == 0) {
                 console.clear();

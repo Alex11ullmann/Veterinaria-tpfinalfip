@@ -1,8 +1,7 @@
 import { Paciente } from "./Paciente";
-import { Generador } from "./generarid";
-import { Plantilla } from "./plantilla";
+import { IdCliente } from "./idCliente";
 
-export class Cliente extends Plantilla {
+export class Cliente extends IdCliente {
     public nombreCliente : string;
     protected telefonoCliente : number;
     protected visitas : number = 0;
@@ -81,3 +80,7 @@ cliente.agregarPaciente(cat);
 console.log (cliente);
 console.log (cliente.sumarVisita());
 console.log (cliente.sumarVisita());
+console.log (cliente.sumarVisita());
+console.log (cliente.sumarVisita());
+
+console.log (cliente.getVip());
