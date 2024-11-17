@@ -60,7 +60,8 @@ export class Sucursal {
             return `El cliente ${clienteAEliminar.nombreCliente} NO existe`;
         }
     }
-    public agregarProveedor (proveedorNuevo : Proveedor) :string {
+
+    /*public agregarProveedor (proveedorNuevo : Proveedor) :string {
         const i = this.proveedor.includes(proveedorNuevo);
         if (i) {
            return `El proveedor ${proveedorNuevo.nombreProveedor} ya existe`;
@@ -68,7 +69,13 @@ export class Sucursal {
             this.proveedor.push (proveedorNuevo);
             return `El proveedor ${proveedorNuevo.nombreProveedor} fue creado`;
         }
-    } 
+    } */
+
+    public agregarProveedor(proveedorNuevo: Proveedor): void {
+            const existe = this.proveedor.some(
+                (proveedor) => proveedor.nombreProveedor === proveedorNuevo.nombreProveedor
+            );
+        }
     public eliminarProveedor(proveedorAEliminar : Proveedor) : string {
         if (proveedorAEliminar != undefined && this.proveedor.includes(proveedorAEliminar)) {
             const iProveedor : number = this.proveedor.indexOf (proveedorAEliminar);

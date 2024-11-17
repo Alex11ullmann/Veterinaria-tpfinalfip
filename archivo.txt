@@ -2,4 +2,4 @@
 {"nombreSucursal":"asdasda","direccion":"asdasd","cliente":[],"proveedor":[],"id":"S/40"}
 {"nombreSucursal":"alexis","direccion":"sadasdasd","cliente":[],"proveedor":[],"id":"S/81"}
 {"nombreSucursal":"alexis","direccion":"asdasdas","cliente":[],"proveedor":[],"id":"S/5"}
-{"nombreSucursal":"alexis","direccion":"asdasdas","cliente":[],"proveedor":[],"id":"S/71"}
+{"nombreSucursal":"octavio","direccion":"calle falsa 123","cliente":[],"proveedor":[],"id":"S/24"}

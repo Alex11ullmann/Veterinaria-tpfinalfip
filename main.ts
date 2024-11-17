@@ -9,6 +9,7 @@ import * as rls from "readline-sync";
 let redVeterinarias : Red = new Red ();
 let opcionNumerica : number;
 let finalPrograma : boolean = false;
+/*let contenedorProveedores : Proveedor = new Proveedor ();*/
 
 //Comienza interface con usuario
 
@@ -44,7 +45,7 @@ do{
             //---------------------------------------------------------------------------------------------
             let salidaSuc : boolean = false;
             do {
-                console.log ("Ingresaste a SUCURSALES, preciona una opcion para continuar:");
+                console.log ("Ingresaste a SUCURSALES, presiona una opcion para continuar:");
                 console.log ("1- Para Crear una Sucursal Nueva de Veterinaria");
                 console.log ("2- Para Ver una lista de Sucursales de Veterinarias");
                 console.log ("3- Para Eliminar una Sucursal de Veterinaria");
@@ -91,16 +92,15 @@ do{
                 console.clear();
                 console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 2- Ver una lista de Sucursales de Veterinarias");
                 //se muestra la lista de sucursales de veterinarias existentes
-                console.table(redVeterinarias.getListaSucursales());
+                redVeterinarias.getListaSucursales();
             }
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 3) {
                 console.clear();
                 console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 3- Eliminar una sucursal");
-                let eliminarSucNombre = rls.question ("Ingrese el nombre de la sucursal a Eliminar: ");
                 let eliminarSucId = rls.question ("Ingrese el ID de la sucursal a Eliminar: ");
                 console.clear();
-                redVeterinarias.eliminarSucursal(eliminarSucNombre, eliminarSucId);
+                redVeterinarias.eliminarSucursal(eliminarSucId);
             }
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 4) {
@@ -156,8 +156,6 @@ do{
                 let proveedorNuevo : Proveedor = new Proveedor (nombreProveedor, telefonoProveedor);
                 //se pushea la nueva sucursal a la red
                 console.log ("Ingrese a que Sucursal desea agregarlo: ");
-                
-
 
                 console.clear();
                 console.log ('\x1b[33m%s\x1b[0m', `El proveedor ha sido creada con exito!`);
