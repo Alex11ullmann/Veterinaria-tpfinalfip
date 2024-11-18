@@ -1,5 +1,7 @@
+import { log } from "node:console";
 import { Sucursal } from "./Sucursal";
 import fs from 'node:fs';
+import * as rls from "readline-sync";
 
 export class Red {
     protected sucursal: Sucursal[]
@@ -31,31 +33,82 @@ export class Red {
             return `La sucursal ${sucursalNueva.nombreSucursal} fue creada`;
         }
     }
+    //Eliminar Sucursal
     public eliminarSucursal(idSucEliminar: string): void {
-        for (let i = 0; i < this.sucursal.length; i++) {
-            if (this.sucursal[i].getId() === idSucEliminar) {
-                this.sucursal.splice(i, 1);
-                console.log('\x1b[33m%s\x1b[0m', `La Sucursal ha sido Eliminada con exito`);
-            } else {
-                console.log('\x1b[33m%s\x1b[0m', `El nombre y el ID no coinciden con una sucursal existente`);
+        const listaSucursal: string = fs.readFileSync('./archivo.txt', 'utf8');
+        const sucursales = listaSucursal.split('\n').map(linea => {
+            try {
+                return JSON.parse(linea);  // Parsear cada línea como un objeto JSON
+            } catch (error) {
+                return null;  // Si hay un error, devolver null
             }
+        }).filter(item => item !== null);
+        const indice = sucursales.findIndex(suc => suc.id === idSucEliminar);
+        if (indice !== -1) {
+            sucursales.splice(indice, 1);
+            let sucursalTexto = sucursales.map(suc => JSON.stringify(suc)).join('\n');
+            // Guardar el archivo actualizado
+            fs.writeFileSync('./archivo.txt', sucursalTexto, 'utf8');
+            console.log('\x1b[33m%s\x1b[0m', `La sucursal con ID ${idSucEliminar} fue eliminada con éxito.`);
+        } else {
+            console.log('\x1b[31m%s\x1b[0m', `No se encontró ninguna sucursal con el ID ${idSucEliminar}.`);
         }
     }
-        /*public eliminarSucursal(idSucEliminar: string): void {
-            if (this.sucursal.includes(idSucEliminar)) {
-                const sucursalAEliminar = this.sucursal.find(sucursal => sucursal.getId() === idSucEliminar);
-                this.sucursal.splice(this.sucursal.indexOf(sucursalAEliminar), 1);
-            
-                
-            }
-        }*/
 
-       /* public eliminarSucursal(idSucEliminar: string): void {  
-            if (idSucEliminar != undefined && this.sucursal.includes(idSucEliminar)) {
-                const posSucursalAEliminar: number = this.sucursal.indexOf(idSucEliminar);
-                this.sucursal.slice(posSucursalAEliminar,1)
-                
-            }
-        }*/
+    public modificarSucursal(): void {
+        let salida: boolean = false
 
+        let idSucAModificar = rls.question("Ingrese el ID de la sucursal que desea modificar: ")
+        const listaSucursal: string = fs.readFileSync('./archivo.txt', 'utf8');
+        const sucursales = listaSucursal.split('\n').map(linea => {
+            try {
+                return JSON.parse(linea);  // Parsear cada línea como un objeto JSON
+            } catch (error) {
+                return null;  // Si hay un error, devolver null
+            }
+        }).filter(item => item !== null);
+        const indice = sucursales.findIndex(suc => suc.id === idSucAModificar);
+
+        if (indice !== -1) {
+            do {
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre y 2 para cambiar la dirección o 0 para volver: ")
+                if (respuesta == 1) {
+                    let nombreNuevo = rls.question("Ingrese el nuevo nombre de la sucursal: ")
+                    do {
+                        if (nombreNuevo.length < 5) {
+                            console.log ("Ingresaste un nombre con menos de 5 caracteres");
+                            nombreNuevo = rls.question ("Ingrese nuevamente el nombre de la sucursal (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (nombreNuevo.length < 5);
+                    sucursales[indice].nombreSucursal = nombreNuevo;
+                    let sucursalTexto = sucursales.map(suc => JSON.stringify(suc)).join('\n');
+                    // Guardar el archivo actualizado
+                    fs.writeFileSync('./archivo.txt', sucursalTexto, 'utf8');
+                    console.log('\x1b[33m%s\x1b[0m', `La sucursal con ID ${idSucAModificar} fue modificada con éxito.`);
+                } if (respuesta == 2) {
+                    let direccionNueva = rls.question("Ingrese la nueva dirección de la sucursal: ")
+                    do {
+                        if (direccionNueva.length < 5) {
+                            console.log ("Ingresaste un nombre con menos de 5 caracteres");
+                            direccionNueva = rls.question ("Ingrese nuevamente el nombre de la sucursal (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (direccionNueva.length < 5);
+                    sucursales[indice].direccion = direccionNueva;
+                    let sucursalTexto = sucursales.map(suc => JSON.stringify(suc)).join('\n');
+                    // Guardar el archivo actualizado
+                    fs.writeFileSync('./archivo.txt', sucursalTexto, 'utf8');
+                    console.log('\x1b[33m%s\x1b[0m', `La sucursal con ID ${idSucAModificar} fue modificada con éxito.`);
+                } if (respuesta == 0) {
+                    salida = true;
+                    console.clear();
+                    console.log('\x1b[31m%s\x1b[0m', `Eligio la opcion 0- Has vuelto al menu anterior`);
+                } if (respuesta < 0 || respuesta > 2) {
+                    console.log('\x1b[31m%s\x1b[0m', `Ingresaste un valor incorrecto, vuelva a ingresar`);
+                }
+            } while (salida == false);
+
+        } else {
+            console.log('\x1b[31m%s\x1b[0m', `No se encontró ninguna sucursal con el ID ${idSucAModificar}.`)
+        }
+    }
 }
