@@ -14,7 +14,7 @@ let finalPrograma : boolean = false;
 //Comienza interface con usuario
 
 console.log ("|------------------------------------------------------------|");
-console.log ("|BIENVENIDOS A LA RED DE VETERRINARIAS ´´FELICES LOS PICHOS´´|");
+console.log ("|BIENVENIDOS A LA RED DE VETERINARIAS ´´FELICES LOS PICHOS´´|");
 console.log ("|------------------------------------------------------------|");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //opciones
@@ -97,14 +97,16 @@ do{
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 3) {
                 console.clear();
-                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 3- Eliminar una sucursal");
+                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 3- Eliminar una sucursal");  
                 let eliminarSucId = rls.question ("Ingrese el ID de la sucursal a Eliminar: ");
                 console.clear();
                 redVeterinarias.eliminarSucursal(eliminarSucId);
-            }
+            };
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 4) {
-                let modificarNombreSuc = rls.question ("Ingrese el nombre de la sucursal a modificar: ");
+                console.clear()
+                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 4- Modificar una sucursal");  
+                redVeterinarias.modificarSucursal();
             }
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 0) {
