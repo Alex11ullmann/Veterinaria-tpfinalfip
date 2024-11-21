@@ -1,4 +1,1 @@
-{"nombreSucursal":"asdasda","direccion":"asdasdas","cliente":[],"proveedor":[],"id":"S/78"}
-{"nombreSucursal":"asdasda","direccion":"asdasd","cliente":[],"proveedor":[],"id":"S/40"}
-{"nombreSucursal":"123123213","direccion":"Lamadrid 123","cliente":[],"proveedor":[],"id":"S/48"}{"nombreSucursal":"octavio","direccion":"dorrego 890","cliente":[],"proveedor":[],"id":"S/83"}
-{"nombreSucursal":"Alexis","direccion":"Buchardo 123","cliente":[],"proveedor":[],"id":"S/19"}
+{"nombreSucursal":"aaaaaaaaa","direccion":"asdasda","cliente":[],"proveedores":[{"nombreProveedor":"l�k�lk�l","telefonoProveedor":123123123,"id":"P/22"},{"nombreProveedor":"prueba","telefonoProveedor":123123123,"id":"P/18"},{"nombreProveedor":"prueba2","telefonoProveedor":123123456,"id":"P/22"}],"id":"S/74"}{"nombreSucursal":"sucursal2","direccion":"dorerasd123","cliente":[],"proveedores":[],"id":"S/51"}
