@@ -5,6 +5,8 @@ import { Proveedor } from "./Proveedor";
 import { Red } from "./Red";
 import { Sucursal } from "./Sucursal";
 import * as rls from "readline-sync";
+import fs from 'node:fs';
+
 
 let redVeterinarias : Red = new Red ();
 let opcionNumerica : number;
@@ -89,7 +91,7 @@ do{
             }
         //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 2) { 
-                console.clear();
+                //console.clear();
                 console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 2- Ver una lista de Sucursales de Veterinarias");
                 //se muestra la lista de sucursales de veterinarias existentes
                 redVeterinarias.getListaSucursales();
@@ -137,30 +139,60 @@ do{
                     salidaProv = true;
                 }
             } while (salidaProv == false);
-            if (opcionNumericaProv == 1) {
-                //se crea el nombre del proveedor
-                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 1- Crear a un Proveedor Nuevo");
-                let nombreProveedor : string = rls.question ("Ingrese el nombre del nuevo Proveedor (minimo 5 caracteres): ");
-                do {
-                    if (nombreProveedor.length < 5) {
-                        console.log ("Ingresaste un nombre con menos de 5 caracteres");
-                        nombreProveedor = rls.question ("Ingrese nuevamente el nombre del Proveedor (Recuerde minimo 5 caracteres): ");
-                    }
-                } while (nombreProveedor.length < 5);
-                //se crea el telefono del Proveedor
-                let telefonoProveedor : number = rls.questionInt ("Ingrese el telefono del Proveedor (minimo 9 numeros - Ejemplo: 011905040): ");
-                do {
-                    if (telefonoProveedor < 9) {
-                        console.log ("Ingresaste un telefono con menos de 9 numeros");
-                        telefonoProveedor = rls.questionInt ("Ingrese nuevamente el telefono del Proveedor (Recuerde minimo 9 numeros - Ejemplo: 011905040): ");
-                    }
-                } while (telefonoProveedor < 9);
-                let proveedorNuevo : Proveedor = new Proveedor (nombreProveedor, telefonoProveedor);
-                //se pushea la nueva sucursal a la red
-                console.log ("Ingrese a que Sucursal desea agregarlo: ");
 
-                console.clear();
-                console.log ('\x1b[33m%s\x1b[0m', `El proveedor ha sido creada con exito!`);
+            if (opcionNumericaProv == 1) {
+                console.log ('\x1b[33m%s\x1b[0m', "Eligio la opcion 1- Crear a un Proveedor Nuevo");
+                let idSucursal = rls.question("Ingrese el ID de la sucursal que desea modificar: ");
+                const listaSucursal: string = fs.readFileSync('./archivo.txt', 'utf8');
+                const sucursales = listaSucursal.split('\n').map(linea => {
+                    try {
+                        return JSON.parse(linea);  // Parsear cada línea como un objeto JSON
+                    } catch (error) {
+                        return null;  // Si hay un error, devolver null
+                    }
+                }).filter(item => item !== null);    
+                //const indice = sucursales.findIndex(suc => suc.id === idSucursal);
+                const indice = sucursales.findIndex(suc => suc.id.toString().trim() == idSucursal.trim());
+                if (indice == -1) {
+                    //console.clear ();
+                    console.log ('\x1b[31m%s\x1b[0m', "El Id de la sucursal que buscas, no existe");
+                } else {
+                    //se crea el nombre del Proveedor
+                const sucursales = listaSucursal.split('\n').map(linea => {
+                    try {
+                        const obj = JSON.parse(linea);  
+                        return Sucursal.fromJSON(obj); // Convertir a instancia de Sucursal 
+                    } catch (error) {
+                        return null;  // Si hay un error, devolver null
+                    }
+                }).filter(item => item !== null);    
+
+                    let nombreProveedor : string; 
+                    do {
+                        nombreProveedor = rls.question ("Ingrese el nombre del nuevo Proveedor (minimo 5 caracteres): ");
+                        if (nombreProveedor.length < 5) {
+                            console.log ("Ingresaste un nombre con menos de 5 caracteres");
+                            nombreProveedor = rls.question ("Ingrese nuevamente el nombre del Proveedor (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (nombreProveedor.length < 5);
+                    //se crea el telefono del Proveedor
+                    let telefonoProveedor : number;
+                    do {
+                        telefonoProveedor = rls.questionInt ("Ingrese el telefono del Proveedor (minimo 9 numeros - Ejemplo: 011905040): ");
+                        if (telefonoProveedor < 9) {
+                            console.log ("Ingresaste un telefono con menos de 9 numeros");
+                        }
+                    } while (telefonoProveedor < 9);
+                    let proveedorNuevo : Proveedor = new Proveedor (nombreProveedor, telefonoProveedor);
+                    console.log (sucursales);
+                    sucursales[indice].agregarProveedor(proveedorNuevo);
+                    let sucursalTexto = sucursales.map(suc => JSON.stringify(suc)).join('\n');
+                    console.log (sucursalTexto);
+                    // Guardar el archivo actualizado
+                    fs.writeFileSync('./archivo.txt', sucursalTexto, 'utf8');
+                    //console.clear();
+                    console.log ('\x1b[33m%s\x1b[0m', `El proveedor ha sido creada con exito!`);
+                }
             }
             if (opcionNumericaProv == 2) {
                 console.clear();
