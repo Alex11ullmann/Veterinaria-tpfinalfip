@@ -15,7 +15,7 @@ export abstract class IdCliente {
         let id = "C/" + idGenerado.generadorId().toString();
         return id;
     }
-    protected getId(): string {
+    public getId(): string {
         return IdCliente.id;
     }
 }

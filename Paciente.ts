@@ -5,7 +5,7 @@ export class Paciente extends IdCliente {
     public edad: number;
     public genero: string;
     public especie: string;
-    private id : string = this.getId();
+    public id : string = this.getId();
 
     constructor(nombrePaciente: string, edad: number, genero: string, especie: string) {
         super ();

@@ -1,12 +1,12 @@
-import { Paciente } from "./Paciente";
 import { IdCliente } from "./idCliente";
+import { Paciente } from "./paciente";
 
 export class Cliente extends IdCliente {
     public nombreCliente : string;
-    protected telefonoCliente : number;
-    protected visitas : number = 0;
-    protected vip : boolean = false;
-    private id : string = this.getId();
+    public telefonoCliente : number;
+    public visitas : number = 0;
+    public vip : boolean = false;
+    public id : string = this.getId();
 
     protected paciente : Paciente[];
 
@@ -14,6 +14,7 @@ export class Cliente extends IdCliente {
         super ();
         this.nombreCliente = nombreCliente;
         this.telefonoCliente = telefonoCliente;
+        this.visitas = this.visitas;
         this.paciente = [];
     }
     //getters y setters de la clase
@@ -32,11 +33,11 @@ export class Cliente extends IdCliente {
     public getVisitas () : number {
         return this.visitas;
     }
-    public getVip () : string {
+    public getVip () : void {
         if (this.vip) {
-            return "Si";
+            console.table (`El Cliente ${this.nombreCliente} SI es Vip `);
         } else {
-            return "No";
+            console.table (`El Cliente ${this.nombreCliente} NO es Vip `);
         }
     }
     //getters del arrays
@@ -53,34 +54,21 @@ export class Cliente extends IdCliente {
             return `El paciente ${paciente.nombrePaciente} fue creado`;
         }
     }
-    public eliminarPaciente (pacienteAEliminar : Paciente) :string {
-        if (pacienteAEliminar != undefined && this.paciente.includes(pacienteAEliminar)) {
-            const iPaciente : number = this.paciente.indexOf (pacienteAEliminar);
-            this.paciente.splice (iPaciente, 1);
-            return `El paciente ${pacienteAEliminar.nombrePaciente} fue eliminado`;
+    public eliminarPaciente (nombrePacienteAEliminar : string) :void {
+        const indice = this.paciente.findIndex(suc => suc.getNombrePaciente() === nombrePacienteAEliminar);
+        if (indice !== -1) {
+            this.paciente.splice(indice, 1);
+            console.log('\x1b[33m%s\x1b[0m', `El paciente con el nombre ${nombrePacienteAEliminar} fue eliminado con exito.`);
         } else {
-            return `El paciente ${pacienteAEliminar.nombrePaciente} NO existe`;
+            console.log('\x1b[31m%s\x1b[0m', `No se encontro ningun paciente con el nombre ${nombrePacienteAEliminar}.`);
         }
     }
-    public sumarVisita () : number {
+    //Sumar visitas
+    public sumarVisita () : void {
         this.visitas = this.visitas + 1;
         if (this.visitas > 4) {
             this.vip = true;
         }
-        return this.visitas; //verificar
+        console.log ('\x1b[31m%s\x1b[0m', `Visita Agregada con exito! El total de visitas hasta el momento son: ${this.visitas}.`);
     }
 }
-
-let dogi : Paciente = new Paciente ("dogi", 5, "macho", "perro");
-let cat : Paciente = new Paciente ("gaturro", 3, "hembra", "gato");
-
-let cliente : Cliente = new Cliente ("jose", 1555465);
-cliente.agregarPaciente(dogi);
-cliente.agregarPaciente(cat);
-console.log (cliente);
-console.log (cliente.sumarVisita());
-console.log (cliente.sumarVisita());
-console.log (cliente.sumarVisita());
-console.log (cliente.sumarVisita());
-
-console.log (cliente.getVip());
