@@ -1,27 +1,21 @@
-import { Cliente } from "./Cliente";
-import { Proveedor } from "./Proveedor";
+import { Cliente } from "./cliente";
+import { Proveedor } from "./proveedor";
 import { Generador } from "./generarid";
-import fs from 'node:fs';
 import * as rls from "readline-sync";
-
 
 export class Sucursal {
     public nombreSucursal : string;
     public direccion : string;
     public id : string;
-    
     public cliente : Cliente[];
-    public proveedores : Proveedor[];
+    public proveedor : Proveedor[];
     
-    constructor(nombreSucursal: string, direccion: string, proveedores: Proveedor[] = [], id?: string) {
+    constructor(nombreSucursal: string, direccion: string) {
         this.nombreSucursal = nombreSucursal;
         this.direccion = direccion;
         this.cliente = [];
-        this.proveedores = proveedores;
-        if (id){
-            this.id = id
-        } else {
-            this.id = this.generarId()};
+        this.proveedor = [];
+        this.id = this.generarId();
     }
     //getters y setters de la clase                   
     public getNombreSucursal(): string {
@@ -41,68 +35,128 @@ export class Sucursal {
         return this.id;
     }
     //generador id
-    private generarId(): string {
+    public generarId(): string {
         let idGenerado : Generador = new Generador();
         let id = "S/" + idGenerado.generadorId().toString();
         return id;
     }
-    // agregar y eliminar
+    // agregar, eliminar y modificar clientes
     public agregarCliente (clienteNuevo : Cliente) :string {
-        const iCliente = this.cliente.includes(clienteNuevo);
-        if (iCliente) {
+        const iExiste = this.cliente.includes(clienteNuevo);
+        if (iExiste) {
             return (`El cliente ${clienteNuevo.nombreCliente} ya existe`);
         } else {
             this.cliente.push (clienteNuevo);
             return `El cliente ${clienteNuevo.nombreCliente} fue creado`;
         }
     } 
-    public eliminarCliente (clienteAEliminar : Cliente) : string {
-        if (clienteAEliminar != undefined && this.cliente.includes (clienteAEliminar)) {
-            const iCliente : number = this.cliente.indexOf (clienteAEliminar);
-            this.cliente.splice (iCliente, 1);
-            return `El cliente ${clienteAEliminar.nombreCliente} fue eliminado`;
+    public eliminarCliente (cliIdAEliminar : string) : void {
+        const indice = this.cliente.findIndex(suc => suc.getId() === cliIdAEliminar);
+        if (indice !== -1) {
+            this.cliente.splice(indice, 1);
+            console.log('\x1b[33m%s\x1b[0m', `El cliente con ID ${cliIdAEliminar} fue eliminado con exito.`);
         } else {
-            return `El cliente ${clienteAEliminar.nombreCliente} NO existe`;
+            console.log('\x1b[31m%s\x1b[0m', `No se encontro ningun cliente con el ID ${cliIdAEliminar}.`);
         }
     }
-    public transformarProveedor (){
-
+    public modificarCliente(cliIdAModificar : string): void {
+        let salida: boolean = false
+        const indice = this.cliente.findIndex(suc => suc.getId() === cliIdAModificar);
+        if (indice == -1) {
+            console.log('\x1b[33m%s\x1b[0m', `El Cliente con ID ${cliIdAModificar} no existe`);
+        } else {
+            do {
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar el telefono o 0 para volver: ")
+                if (respuesta == 1) {
+                    let nombreNuevo = rls.question("Ingrese el nuevo nombre del Cliente: ")
+                    do {
+                        if (nombreNuevo.length < 5) {
+                            console.log ("Ingresaste un nombre con menos de 5 caracteres");
+                            nombreNuevo = rls.question ("Ingrese nuevamente el nombre del Cliente (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (nombreNuevo.length < 5);
+                    this.cliente[indice].nombreCliente = nombreNuevo;
+                    console.log('\x1b[33m%s\x1b[0m', `El Cliente con ID ${cliIdAModificar} fue modificado con éxito.`);
+                } if (respuesta == 2) {
+                    let telefonoNuevo = rls.questionInt ("Ingrese el nuevo telefono del Cliente: ")
+                    do {
+                        if (telefonoNuevo < 5) {
+                            console.log ("Ingresaste un telefono con menos de 5 caracteres");
+                            telefonoNuevo = rls.questionInt ("Ingrese nuevamente el telefono del Cliente (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (telefonoNuevo < 5);
+                    this.cliente[indice].telefonoCliente = telefonoNuevo;
+                    console.log('\x1b[33m%s\x1b[0m', `El Cliente con ID ${cliIdAModificar} fue modificado con éxito.`);
+                } if (respuesta == 0) {
+                    salida = true;
+                    console.clear();
+                    console.log('\x1b[31m%s\x1b[0m', `Eligio la opcion 0- Has vuelto al menu anterior`);
+                } if (respuesta < 0 || respuesta > 2) {
+                    console.log('\x1b[31m%s\x1b[0m', `Ingresaste un valor incorrecto, vuelva a ingresar`);
+                }
+            } while (salida == false);
+        }
     }
+    // agregar, eliminar y modificar proveedores
     public agregarProveedor(proveedorNuevo: Proveedor): string {
-        const iExiste = this.proveedores.includes(proveedorNuevo);
+        const iExiste = this.proveedor.includes(proveedorNuevo);
         if (iExiste) {
             return `'\x1b[33m%s\x1b[0m', El proveedor ${proveedorNuevo.nombreProveedor} ya existe`;
         } else {
-            this.proveedores.push(proveedorNuevo);
+            this.proveedor.push(proveedorNuevo);
             return `'\x1b[33m%s\x1b[0m', El proveedor ${proveedorNuevo.nombreProveedor} fue creado`;
         }
     }
-        static fromJSON(obj: any): Sucursal {
-            return new Sucursal(obj.nombreSucursal, obj.direccion, obj.proveedores || [], obj.id);
-        }
-/*
-            const existe = this.proveedor.some((proveedor) => proveedor.nombreProveedor === proveedorNuevo.nombreProveedor &&
-            proveedor.telefonoProveedor === proveedorNuevo.telefonoProveedor);
-            if (existe) {
-                console.log ('\x1b[33m%s\x1b[0m', "No es posible crear este proveedor, ya que existe otro con los mismos datos");
-            } else { 
-                this.proveedor.push(proveedorNuevo);
-                console.log ('\x1b[33m%s\x1b[0m', "El nuevo Proveedor fue creado");
-            }*/
-    
-    
-    public eliminarProveedor(proveedorAEliminar : Proveedor) : string {
-        if (proveedorAEliminar != undefined && this.proveedores.includes(proveedorAEliminar)) {
-            const iProveedor : number = this.proveedores.indexOf (proveedorAEliminar);
-            this.proveedores.splice (iProveedor, 1);
-            return `El proveedor ${proveedorAEliminar.nombreProveedor} fue eliminado`;
+    public eliminarProveedor(provIdAEliminar : string) : void {
+        const indice = this.proveedor.findIndex(suc => suc.getId() === provIdAEliminar);
+        if (indice !== -1) {
+            this.proveedor.splice(indice, 1);
+            console.log('\x1b[33m%s\x1b[0m', `El proveedor con ID ${provIdAEliminar} fue eliminado con exito.`);
         } else {
-            return `El proveedor ${proveedorAEliminar.nombreProveedor} NO existe`;
+            console.log('\x1b[31m%s\x1b[0m', `No se encontro ningun proveedor con el ID ${provIdAEliminar}.`);
+        }
+    }
+    public modificarProveedor(provIdAModificar : string): void {
+        let salida: boolean = false
+        const indice = this.proveedor.findIndex(suc => suc.getId() === provIdAModificar);
+        if (indice == -1) {
+            console.log('\x1b[33m%s\x1b[0m', `El proveedor con ID ${provIdAModificar} no existe`);
+        } else {
+            do {
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar el telefono o 0 para volver: ")
+                if (respuesta == 1) {
+                    let nombreNuevo = rls.question("Ingrese el nuevo nombre del proveedor: ")
+                    do {
+                        if (nombreNuevo.length < 5) {
+                            console.log ("Ingresaste un nombre con menos de 5 caracteres");
+                            nombreNuevo = rls.question ("Ingrese nuevamente el nombre del proveedor (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (nombreNuevo.length < 5);
+                    this.proveedor[indice].nombreProveedor = nombreNuevo;
+                    console.log('\x1b[33m%s\x1b[0m', `El proveedor con ID ${provIdAModificar} fue modificado con éxito.`);
+                } if (respuesta == 2) {
+                    let telefonoNuevo = rls.questionInt ("Ingrese el nuevo telefono del proveedor: ")
+                    do {
+                        if (telefonoNuevo < 5) {
+                            console.log ("Ingresaste un telefono con menos de 5 caracteres");
+                            telefonoNuevo = rls.questionInt ("Ingrese nuevamente el telefono del proveedor (Recuerde minimo 5 caracteres): ");
+                        }
+                    } while (telefonoNuevo < 5);
+                    this.proveedor[indice].telefonoProveedor = telefonoNuevo;
+                    console.log('\x1b[33m%s\x1b[0m', `El proveedor con ID ${provIdAModificar} fue modificado con éxito.`);
+                } if (respuesta == 0) {
+                    salida = true;
+                    console.clear();
+                    console.log('\x1b[31m%s\x1b[0m', `Eligio la opcion 0- Has vuelto al menu anterior`);
+                } if (respuesta < 0 || respuesta > 2) {
+                    console.log('\x1b[31m%s\x1b[0m', `Ingresaste un valor incorrecto, vuelva a ingresar`);
+                }
+            } while (salida == false);
         }
     }
     //getters de los arrays
     public getListaProveedores():Proveedor[]{
-        return this.proveedores;
+        return this.proveedor;
     }
     public getListaClientes():Cliente[]{
         return this.cliente;
