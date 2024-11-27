@@ -1,7 +1,7 @@
 import { Cliente } from "./cliente";
-import { Proveedor } from "./proveedor";
 import { Generador } from "./generarid";
 import * as rls from "readline-sync";
+import { Proveedor } from "./Proveedor";
 
 export class Sucursal {
     public nombreSucursal : string;

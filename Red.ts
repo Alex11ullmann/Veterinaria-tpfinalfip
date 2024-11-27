@@ -38,7 +38,7 @@ export class Red {
         const indice = this.sucursal.findIndex(suc => suc.id === idSucAModificar);
         if (indice !== -1) {
             do {
-                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar la dirección o 0 para volver: ")
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar la direccion o 0 para volver: ")
                 if (respuesta == 1) {
                     let nombreNuevo = rls.question("Ingrese el nuevo nombre de la sucursal: ")
                     do {
