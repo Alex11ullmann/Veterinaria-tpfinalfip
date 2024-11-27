@@ -1,5 +1,5 @@
 import { IdCliente } from "./idCliente";
-import { Paciente } from "./paciente";
+import { Paciente } from "./Paciente";
 
 export class Cliente extends IdCliente {
     public nombreCliente : string;
