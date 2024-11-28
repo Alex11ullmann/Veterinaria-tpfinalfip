@@ -2,7 +2,7 @@ import { Sucursal } from "./sucursal";
 import * as rls from "readline-sync";
 
 export class Red {
-    protected sucursal: Sucursal[]
+    protected sucursal: Sucursal[];
 
     constructor() {
         this.sucursal = [];
