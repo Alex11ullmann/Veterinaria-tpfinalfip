@@ -1,18 +1,21 @@
-import { IdCliente } from "./idCliente";
+import { Cliente } from "./cliente";
 
-export class Paciente extends IdCliente {
+export class Paciente extends Cliente {
     public nombrePaciente: string;
     public edad: number;
     public genero: string;
     public especie: string;
-    public id : string = this.getId();
+    public id : number;
 
-    constructor(nombrePaciente: string, edad: number, genero: string, especie: string) {
-        super ();
+    constructor(nombrePaciente: string, edad: number, genero: string, especie: string, nombreCliente : string, telefonoCliente : number, id : number) {
+        super (nombreCliente, telefonoCliente, id);
         this.nombrePaciente = nombrePaciente;
         this.edad = edad;
         this.genero = genero;
         this.especie = especie;
+        this.nombreCliente = this.getNombreCliente();
+        this.telefonoCliente = this.getTelefonoCliente();
+        this.id = this.getId();
     }
     //getters y setters de la clase
     public getNombrePaciente(): string {
