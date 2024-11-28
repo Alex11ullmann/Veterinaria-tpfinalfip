@@ -2,10 +2,10 @@ import { Cliente } from "./cliente";
 
 export class Paciente extends Cliente {
     public nombrePaciente: string;
-    public edad: number;
-    public genero: string;
-    public especie: string;
-    public id : number;
+    protected edad: number;
+    protected genero: string;
+    protected especie: string;
+    protected id : number;
 
     constructor(nombrePaciente: string, edad: number, genero: string, especie: string, nombreCliente : string, telefonoCliente : number, id : number) {
         super (nombreCliente, telefonoCliente, id);
@@ -24,19 +24,19 @@ export class Paciente extends Cliente {
     public setNombrePaciente(nombreNuevo : string): void {
         this.nombrePaciente = nombreNuevo;
     }
-    public getEdad(): number {
+    private getEdad(): number {
         return this.edad;
     }
     public setEdad(edadNueva: number): void {
         this.edad = edadNueva;
     }
-    public getGenero(): string {
+    private getGenero(): string {
         return this.genero;
     }
     public setGenero(generoNuevo: string): void {
         this.genero = generoNuevo;
     }
-    public getEspecie(): string {
+    private getEspecie(): string {
         return this.especie;
     }
     public setEspecie(especieNueva: string): void {

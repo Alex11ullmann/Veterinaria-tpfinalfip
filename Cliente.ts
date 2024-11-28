@@ -3,11 +3,9 @@ import { Paciente } from "./Paciente";
 export class Cliente {
     public nombreCliente : string;
     public telefonoCliente : number;
-    public visitas : number = 0;
-    public vip : boolean = false;
-    public id : number;
-    
-    
+    protected visitas : number = 0;
+    protected vip : boolean = false;
+    protected id : number;
     protected paciente : Paciente[];
     
     constructor (nombreCliente : string, telefonoCliente : number, id : number) {
@@ -18,26 +16,25 @@ export class Cliente {
         this.id = id;
     }
     //getters y setters de la clase
-        public getId(): number {
-            return this.id;
-        }
-    
-        public setId(idNuevo: number): void {
-            this.id = idNuevo;
-        }
+    public getId(): number {
+        return this.id;
+    }
+    private setId(idNuevo: number): void {
+        this.id = idNuevo;
+    }
     public getNombreCliente () : string {
         return this.nombreCliente;
     }
-    public setNombreCliente (nombreNuevo : string) {
+    private setNombreCliente (nombreNuevo : string) {
         this.nombreCliente = nombreNuevo;
     }
     public getTelefonoCliente () : number {
         return this.telefonoCliente;
     }
-    public setTelefonoCliente (telefonoNuevo : number) {
+    private setTelefonoCliente (telefonoNuevo : number) {
         this.telefonoCliente = telefonoNuevo;
     }
-    public getVisitas () : number {
+    private getVisitas () : number {
         return this.visitas;
     }
     public getVip () : void {

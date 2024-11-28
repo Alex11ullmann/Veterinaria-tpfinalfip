@@ -11,16 +11,16 @@ export class Proveedor {
         this.id = this.generarId();
     }
     //getters y setters de la clase
-    public getNombreProveedor () : string {
+    private getNombreProveedor () : string {
         return this.nombreProveedor;
     }
-    public setNombreProveedor (nombreNuevo : string) {
+    private setNombreProveedor (nombreNuevo : string) {
         this.nombreProveedor = nombreNuevo;
     }
-    public getTelefonoProveedor () : number {
+    private getTelefonoProveedor () : number {
         return this.telefonoProveedor;
     }
-    public setTelefonoProveedor (telefonoNuevo : number) {
+    private setTelefonoProveedor (telefonoNuevo : number) {
         this.telefonoProveedor = telefonoNuevo;
     }
     //generador id

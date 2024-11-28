@@ -7,8 +7,8 @@ export class Sucursal {
     public nombreSucursal : string;
     public direccion : string;
     public id : string;
-    public cliente : Cliente[];
-    public proveedor : Proveedor[];
+    protected cliente : Cliente[];
+    protected proveedor : Proveedor[];
     
     constructor(nombreSucursal: string, direccion: string) {
         this.nombreSucursal = nombreSucursal;
@@ -18,16 +18,16 @@ export class Sucursal {
         this.id = this.generarId();
     }
     //getters y setters de la clase                   
-    public getNombreSucursal(): string {
+    private getNombreSucursal(): string {
         return this.nombreSucursal;
     }
-    public setNombreSucursal(nombreSucursal: string): void {
+    private setNombreSucursal(nombreSucursal: string): void {
         this.nombreSucursal = nombreSucursal;
     }
-    public getDireccion(): string {
+    private getDireccion(): string {
         return this.direccion;
     }
-    public setDireccion(direccion: string) : void {
+    private setDireccion(direccion: string) : void {
         this.direccion = direccion;
     }
     //getters y setters del generador de id
@@ -35,7 +35,7 @@ export class Sucursal {
         return this.id;
     }
     //generador id
-    public generarId(): string {
+    private generarId(): string {
         let idGenerado : Generador = new Generador();
         let id = "S/" + idGenerado.generadorId().toString();
         return id;
