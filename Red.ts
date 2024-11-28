@@ -33,14 +33,14 @@ export class Red {
     }
     //Modificar Sucursal
     public modificarSucursal(): void {
-        let salida: boolean = false
-        let idSucAModificar = rls.question("Ingrese el ID de la sucursal que desea modificar: ")
+        let salida: boolean = false;
+        let idSucAModificar = rls.question("Ingrese el ID de la sucursal que desea modificar: ");
         const indice = this.sucursal.findIndex(suc => suc.id === idSucAModificar);
         if (indice !== -1) {
             do {
-                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar la direccion o 0 para volver: ")
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar la direccion o 0 para volver: ");
                 if (respuesta == 1) {
-                    let nombreNuevo = rls.question("Ingrese el nuevo nombre de la sucursal: ")
+                    let nombreNuevo = rls.question("Ingrese el nuevo nombre de la sucursal: ");
                     do {
                         if (nombreNuevo.length < 5) {
                             console.log ("Ingresaste un nombre con menos de 5 caracteres");
@@ -50,7 +50,7 @@ export class Red {
                     this.sucursal[indice].nombreSucursal = nombreNuevo;
                     console.log('\x1b[33m%s\x1b[0m', `La sucursal con ID ${idSucAModificar} fue modificada con éxito.`);
                 } if (respuesta == 2) {
-                    let direccionNueva = rls.question("Ingrese la nueva dirección de la sucursal: ")
+                    let direccionNueva = rls.question("Ingrese la nueva dirección de la sucursal: ");
                     do {
                         if (direccionNueva.length < 5) {
                             console.log ("Ingresaste una direccion con menos de 5 caracteres");
@@ -68,7 +68,7 @@ export class Red {
                 }
             } while (salida == false);
         } else {
-            console.log('\x1b[31m%s\x1b[0m', `No se encontró ninguna sucursal con el ID ${idSucAModificar}.`)
+            console.log('\x1b[31m%s\x1b[0m', `No se encontró ninguna sucursal con el ID ${idSucAModificar}.`);
         }
     }
 }

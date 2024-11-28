@@ -52,7 +52,7 @@ export class Cliente {
     public agregarPaciente (paciente : Paciente) :string {
         const i = this.paciente.includes(paciente);
         if (i) {
-            return `El paciente ${paciente.nombrePaciente} ya existe`
+            return `El paciente ${paciente.nombrePaciente} ya existe`;
         } else {
             this.paciente.push (paciente);
             return `El paciente ${paciente.nombrePaciente} fue creado`;
