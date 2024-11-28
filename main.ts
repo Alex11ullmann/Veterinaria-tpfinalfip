@@ -1,9 +1,9 @@
 import { Proveedor } from "./Proveedor";
 import { Sucursal } from "./sucursal";
 import * as rls from "readline-sync";
-import { Red } from "./Red";
 import { Paciente } from "./Paciente";
 import { Cliente } from "./cliente";
+import { Red } from "./red";
 
 let redVeterinarias: Red = new Red();
 let opcionNumerica: number;
@@ -99,7 +99,7 @@ do {
             };
             //---------------------------------------------------------------------------------------------
             if (opcionNumericaSuc == 4) {
-                console.clear()
+                console.clear();
                 console.log('\x1b[33m%s\x1b[0m', "Eligio la opcion 4- Modificar una sucursal");
                 redVeterinarias.modificarSucursal();
             }

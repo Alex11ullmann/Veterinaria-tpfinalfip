@@ -7,8 +7,8 @@ export class Sucursal {
     public nombreSucursal : string;
     public direccion : string;
     public id : string;
-    public cliente : Cliente[];
-    public proveedor : Proveedor[];
+    protected cliente : Cliente[];
+    protected proveedor : Proveedor[];
     
     constructor(nombreSucursal: string, direccion: string) {
         this.nombreSucursal = nombreSucursal;
@@ -18,16 +18,16 @@ export class Sucursal {
         this.id = this.generarId();
     }
     //getters y setters de la clase                   
-    public getNombreSucursal(): string {
+    private getNombreSucursal(): string {
         return this.nombreSucursal;
     }
-    public setNombreSucursal(nombreSucursal: string): void {
+    private setNombreSucursal(nombreSucursal: string): void {
         this.nombreSucursal = nombreSucursal;
     }
-    public getDireccion(): string {
+    private getDireccion(): string {
         return this.direccion;
     }
-    public setDireccion(direccion: string) : void {
+    private setDireccion(direccion: string) : void {
         this.direccion = direccion;
     }
     //getters y setters del generador de id
@@ -35,7 +35,7 @@ export class Sucursal {
         return this.id;
     }
     //generador id
-    public generarId(): string {
+    private generarId(): string {
         let idGenerado : Generador = new Generador();
         let id = "S/" + idGenerado.generadorId().toString();
         return id;
@@ -60,15 +60,15 @@ export class Sucursal {
         }
     }
     public modificarCliente(cliIdAModificar : number): void {
-        let salida: boolean = false
+        let salida: boolean = false;
         const indice = this.cliente.findIndex(suc => suc.getId() === cliIdAModificar);
         if (indice == -1) {
             console.log('\x1b[33m%s\x1b[0m', `El Cliente con ID ${cliIdAModificar} no existe`);
         } else {
             do {
-                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar el telefono o 0 para volver: ")
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar el telefono o 0 para volver: ");
                 if (respuesta == 1) {
-                    let nombreNuevo = rls.question("Ingrese el nuevo nombre del Cliente: ")
+                    let nombreNuevo = rls.question("Ingrese el nuevo nombre del Cliente: ");
                     do {
                         if (nombreNuevo.length < 5) {
                             console.log ("Ingresaste un nombre con menos de 5 caracteres");
@@ -78,7 +78,7 @@ export class Sucursal {
                     this.cliente[indice].nombreCliente = nombreNuevo;
                     console.log('\x1b[33m%s\x1b[0m', `El Cliente con ID ${cliIdAModificar} fue modificado con éxito.`);
                 } if (respuesta == 2) {
-                    let telefonoNuevo = rls.questionInt ("Ingrese el nuevo telefono del Cliente: ")
+                    let telefonoNuevo = rls.questionInt ("Ingrese el nuevo telefono del Cliente: ");
                     do {
                         if (telefonoNuevo < 5) {
                             console.log ("Ingresaste un telefono con menos de 5 caracteres");
@@ -117,15 +117,15 @@ export class Sucursal {
         }
     }
     public modificarProveedor(provIdAModificar : string): void {
-        let salida: boolean = false
+        let salida: boolean = false;
         const indice = this.proveedor.findIndex(suc => suc.getId() === provIdAModificar);
         if (indice == -1) {
             console.log('\x1b[33m%s\x1b[0m', `El proveedor con ID ${provIdAModificar} no existe`);
         } else {
             do {
-                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar el telefono o 0 para volver: ")
+                let respuesta = rls.questionInt("Ingrese 1 para cambiar el nombre, 2 para cambiar el telefono o 0 para volver: ");
                 if (respuesta == 1) {
-                    let nombreNuevo = rls.question("Ingrese el nuevo nombre del proveedor: ")
+                    let nombreNuevo = rls.question("Ingrese el nuevo nombre del proveedor: ");
                     do {
                         if (nombreNuevo.length < 5) {
                             console.log ("Ingresaste un nombre con menos de 5 caracteres");
@@ -135,7 +135,7 @@ export class Sucursal {
                     this.proveedor[indice].nombreProveedor = nombreNuevo;
                     console.log('\x1b[33m%s\x1b[0m', `El proveedor con ID ${provIdAModificar} fue modificado con éxito.`);
                 } if (respuesta == 2) {
-                    let telefonoNuevo = rls.questionInt ("Ingrese el nuevo telefono del proveedor: ")
+                    let telefonoNuevo = rls.questionInt ("Ingrese el nuevo telefono del proveedor: ");
                     do {
                         if (telefonoNuevo < 5) {
                             console.log ("Ingresaste un telefono con menos de 5 caracteres");
