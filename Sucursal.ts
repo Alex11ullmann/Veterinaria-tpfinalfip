@@ -50,7 +50,7 @@ export class Sucursal {
             return `El cliente ${clienteNuevo.nombreCliente} fue creado`;
         }
     } 
-    public eliminarCliente (cliIdAEliminar : string) : void {
+    public eliminarCliente (cliIdAEliminar : number) : void {
         const indice = this.cliente.findIndex(suc => suc.getId() === cliIdAEliminar);
         if (indice !== -1) {
             this.cliente.splice(indice, 1);
@@ -59,7 +59,7 @@ export class Sucursal {
             console.log('\x1b[31m%s\x1b[0m', `No se encontro ningun cliente con el ID ${cliIdAEliminar}.`);
         }
     }
-    public modificarCliente(cliIdAModificar : string): void {
+    public modificarCliente(cliIdAModificar : number): void {
         let salida: boolean = false
         const indice = this.cliente.findIndex(suc => suc.getId() === cliIdAModificar);
         if (indice == -1) {

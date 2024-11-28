@@ -1,4 +1,3 @@
-import { guardarArchivos } from "./guardarArchivos";
 import { Proveedor } from "./Proveedor";
 import { Sucursal } from "./sucursal";
 import * as rls from "readline-sync";
@@ -285,10 +284,28 @@ do {
                             console.log("Ingresaste un telefono con menos de 9 numeros");
                         }
                     } while (telefonoCliente < 9);
-                    let clienteNuevo: Cliente = new Cliente(nombreCliente, telefonoCliente);
-                    redVeterinarias.getListaSucursales()[indiceSucursal].agregarCliente(clienteNuevo);
-                    console.clear();
-                    console.log('\x1b[33m%s\x1b[0m', `El Cliente ha sido creado con exito!`);
+                    let idCliente:number =0;
+                    let finCrearId : boolean = false;
+                    do {
+                        let idCliente: number = rls.questionInt("Ingrese un numero para el id del cliente (minimo 0): ");
+                        do {
+                            if (idCliente < 0) {
+                                console.log("Ingresaste un numero id menor a 0");
+                                idCliente = rls.questionInt("Ingrese nuevamente el id del cliente (Recuerde minimo 0): ");
+                            }
+                        } while (idCliente < 0);
+                        const id= redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === idCliente);
+                        if (id !== -1) {
+                            console.clear();
+                            console.log('\x1b[31m%s\x1b[0m', "El Id del cliente, ya existe");
+                        } else {
+                            let clienteNuevo: Cliente = new Cliente(nombreCliente, telefonoCliente, idCliente);
+                            console.clear();
+                            console.log('\x1b[33m%s\x1b[0m', `El Cliente ha sido creado con exito!`);
+                            finCrearId = true;
+                            redVeterinarias.getListaSucursales()[indiceSucursal].agregarCliente(clienteNuevo);
+                        }  
+                    } while (finCrearId == false);
                 }
             }
             //---------------------------------------------------------------------------------------------
@@ -318,7 +335,7 @@ do {
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
                     console.clear();
-                    let eliminarCliId = rls.question("Ingrese el ID del Cliente que desea Eliminar: ");
+                    let eliminarCliId = rls.questionInt("Ingrese el ID del Cliente que desea Eliminar: ");
                     console.clear();
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === eliminarCliId);
                     if (indiceCliente == -1) {
@@ -342,7 +359,7 @@ do {
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
                     console.clear();
-                    let modificarCliId = rls.question("Ingrese el ID del cliente que desea modificar: ");
+                    let modificarCliId = rls.questionInt("Ingrese el ID del cliente que desea modificar: ");
                     console.clear();
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === modificarCliId);
                     if (indiceCliente == -1) {
@@ -364,7 +381,7 @@ do {
                     console.clear();
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
-                    let modificarCliId = rls.question("Ingrese el ID del cliente: ");
+                    let modificarCliId = rls.questionInt("Ingrese el ID del cliente: ");
                     console.clear();
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === modificarCliId);
                     if (indiceCliente == -1) {
@@ -386,7 +403,7 @@ do {
                     console.clear();
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
-                    let modificarCliId = rls.question("Ingrese el ID del cliente: ");
+                    let modificarCliId = rls.questionInt("Ingrese el ID del cliente: ");
                     console.clear();
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === modificarCliId);
                     if (indiceCliente == -1) {
@@ -437,7 +454,7 @@ do {
                     console.clear();
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que buscas, no existe");
                 } else {
-                    let idCliente = rls.question("Ingrese el ID del cliente al que desea agregarle un Paciente: ");
+                    let idCliente = rls.questionInt("Ingrese el ID del cliente al que desea agregarle un Paciente: ");
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === idCliente);
                     if (indiceCliente == -1) {
                         console.clear();
@@ -513,10 +530,12 @@ do {
                                 console.log("Ingresaste una opcion incorrecta");
                             }
                         } while (fin == false);
-                        let PacienteNuevo: Paciente = new Paciente(nombrePaciente, edadPaciente, generoPaciente, especiePaciente);
+                        let pasarNombreCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes()[indiceCliente].getNombreCliente();
+                        let pasarTelefonoCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes()[indiceCliente].getTelefonoCliente();
+                        let pasarIdCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes()[indiceCliente].getId();
+                        let PacienteNuevo: Paciente = new Paciente(nombrePaciente, edadPaciente, generoPaciente, especiePaciente, pasarNombreCliente, pasarTelefonoCliente, pasarIdCliente);
                         redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes()[indiceCliente].agregarPaciente(PacienteNuevo);
                         console.log('\x1b[33m%s\x1b[0m', `El Paciente ha sido creado con exito!`);
-                        console.clear ();
                     }
                 }
             }
@@ -531,7 +550,7 @@ do {
                     console.clear();
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
-                    let idCliente = rls.question("Ingrese el ID del cliente del que desea mostrar la lista de los Pacientes: ");
+                    let idCliente = rls.questionInt("Ingrese el ID del cliente del que desea mostrar la lista de los Pacientes: ");
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === idCliente);
                     if (indiceCliente == -1) {
                         console.clear();
@@ -552,7 +571,7 @@ do {
                     console.clear();
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
-                    let idCliente = rls.question("Ingrese el ID del cliente del que desea mostrar la lista de los Pacientes: ");
+                    let idCliente = rls.questionInt("Ingrese el ID del cliente del que desea mostrar la lista de los Pacientes: ");
                     const indiceCliente  = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === idCliente);
                     if (indiceCliente == -1) {
                         console.clear();
@@ -581,7 +600,7 @@ do {
                     console.clear();
                     console.log('\x1b[31m%s\x1b[0m', "El Id de la sucursal que ingresaste, no existe");
                 } else {
-                    let modificarCliId = rls.question("Ingrese el ID del cliente relacionado con el paciente a modificar: ");
+                    let modificarCliId = rls.questionInt("Ingrese el ID del cliente relacionado con el paciente a modificar: ");
                     console.clear();
                     const indiceCliente = redVeterinarias.getListaSucursales()[indiceSucursal].getListaClientes().findIndex(suc => suc.getId() === modificarCliId);
                     if (indiceCliente == -1) {
